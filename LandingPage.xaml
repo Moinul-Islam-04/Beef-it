@@ -4,7 +4,13 @@
              x:Class="BeefIt.LandingPage"
              BackgroundColor="Black">
     <VerticalStackLayout Padding="20">
-        <Label Text="Hello [Name]" 
+        <Button x:Name="WorkoutButton"
+                Text="Workout"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                Clicked="WorkoutButton_Clicked" />
+        <Label x:Name="TitleLabel"
+               Text="Hello [Name]" 
                FontAttributes="Bold" 
                FontSize="24"
                TextColor="White"

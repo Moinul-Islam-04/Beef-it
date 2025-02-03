@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeefIt.WorkoutEntryPage"
+             BackgroundColor="Black">
+  <VerticalStackLayout Padding="20" Spacing="15">
+    <Label Text="Enter Workout Details"
+           FontAttributes="Bold"
+           FontSize="24"
+           TextColor="White" />
+    <DatePicker x:Name="WorkoutDatePicker"
+                TextColor="White"
+                Format="D"
+                MaximumDate="{x:Static sys:DateTime.Now}" 
+                MinimumDate="2020-01-01" 
+                xmlns:sys="clr-namespace:System;assembly=netstandard" />
+    <Editor x:Name="WorkoutEntry"
+            Placeholder="Enter your workout details here..."
+            TextColor="White"
+            BackgroundColor="Gray"
+            HeightRequest="100" />
+    <Button Text="Save Workout"
+            BackgroundColor="Green"
+            TextColor="White"
+            Clicked="SaveWorkout_Clicked" />
+  </VerticalStackLayout>
+</ContentPage>
