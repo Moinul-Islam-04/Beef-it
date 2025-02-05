@@ -13,5 +13,9 @@ namespace BeefIt
         {
             await Navigation.PushAsync(new WorkoutEntryPage());
         }
+        private async void ProgressPicButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ProgressPicPage());
+        }
     }
 }

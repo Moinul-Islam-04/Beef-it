@@ -16,5 +16,10 @@
                TextColor="White"
                VerticalOptions="Start" 
                HorizontalOptions="Start"/>
+        <BoxView Color="Transparent" VerticalOptions="FillAndExpand" />
+        <Button x:Name="ProgressPicButton"
+            Text="Take a Progress Pic"
+            HorizontalOptions="Center"
+            Clicked="ProgressPicButton_Clicked" />
     </VerticalStackLayout>
 </ContentPage>
