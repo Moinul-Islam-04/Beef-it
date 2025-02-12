@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeefIt.WorkoutHistoryEntryPage"
+             BackgroundColor="Black">
+  <VerticalStackLayout Padding="20" VerticalOptions="CenterAndExpand">
+    <Label Text="History Page"
+           FontAttributes="Bold"
+           FontSize="24"
+           TextColor="White"
+           HorizontalOptions="Center"/>
+  </VerticalStackLayout>
+</ContentPage>
