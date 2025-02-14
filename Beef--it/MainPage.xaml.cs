@@ -13,6 +13,30 @@
         {
             await Navigation.PushAsync(new PlaceholderPage());
         }
+
+
+        private async void OnLoginButtonClicked(object sender, EventArgs e)
+        {
+            // Get entered values
+            string enteredUsername = UsernameEntry.Text?.Trim();
+            string enteredPassword = PasswordEntry.Text?.Trim();
+
+            // Define test credentials
+            string correctUsername = "test";
+            string correctPassword = "test";
+
+            // Check if credentials match
+            if (enteredUsername == correctUsername && enteredPassword == correctPassword)
+            {
+                // Navigate to PlaceholderPage if login is successful
+                await Navigation.PushAsync(new PlaceholderPage());
+            }
+            else
+            {
+                // Do nothing (or optionally show an error message)
+                await DisplayAlert("Login Failed", "Incorrect username or password.", "OK");
+            }
+        }
     }
 
 }
