@@ -17,5 +17,10 @@ namespace BeefIt
         {
             await Navigation.PushAsync(new ProgressPicPage());
         }
+
+        private async void NutritionButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NutritionPage());
+        }
     }
 }
