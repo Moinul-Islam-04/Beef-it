@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BeefIt.MyExercisesEntryPage"
+             x:Class="Beef__it.MyExercisesEntryPage"
              BackgroundColor="Black">
   <VerticalStackLayout Padding="20" Spacing="15">
     <Label Text="Enter Your Workout"
@@ -13,7 +13,6 @@
                 TextColor="White"
                 Format="D"
                 MinimumDate="2020-01-01"
-                MaximumDate="{x:Static sys:DateTime.Now}"
                 xmlns:sys="clr-namespace:System;assembly=netstandard" />
     <Editor x:Name="WorkoutDetailsEditor"
             Placeholder="Enter workout details here..."

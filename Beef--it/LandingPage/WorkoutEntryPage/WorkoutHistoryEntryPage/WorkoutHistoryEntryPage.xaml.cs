@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls;
 
-namespace BeefIt
+namespace Beef__it
 {
     public partial class WorkoutHistoryEntryPage : ContentPage
     {

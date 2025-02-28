@@ -28,8 +28,8 @@
             // Check if credentials match
             if (enteredUsername == correctUsername && enteredPassword == correctPassword)
             {
-                // Navigate to PlaceholderPage if login is successful
-                await Navigation.PushAsync(new PlaceholderPage());
+                // Navigate to LandingPage if login is successful
+                await Navigation.PushAsync(new LandingPage(enteredUsername));
             }
             else
             {

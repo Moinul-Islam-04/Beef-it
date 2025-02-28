@@ -1,13 +1,14 @@
 using Microsoft.Maui.Controls;
 using System;
 
-namespace BeefIt
+namespace Beef__it
 {
     public partial class MyExercisesEntryPage : ContentPage
     {
         public MyExercisesEntryPage()
         {
             InitializeComponent();
+            ExerciseDatePicker.MaximumDate = DateTime.Now;
         }
         private async void SaveWorkout_Clicked(object sender, EventArgs e)
         {

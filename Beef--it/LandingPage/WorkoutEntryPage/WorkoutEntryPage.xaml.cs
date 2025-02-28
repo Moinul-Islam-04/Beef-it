@@ -1,7 +1,7 @@
 using Microsoft.Maui.Controls;
 using System;
 
-namespace BeefIt
+namespace Beef__it
 {
     public partial class WorkoutEntryPage : ContentPage
     {
