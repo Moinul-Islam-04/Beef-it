@@ -1,88 +1,101 @@
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using Microcharts;
+using SkiaSharp;
+using Beef__it.Models;
 
-namespace Beef__it.Pages;
-
-public partial class NutritionPage : ContentPage
+namespace Beef__it.Pages
 {
-    public class FoodEntry
+    public partial class NutritionPage : ContentPage
+    {
+        public ObservableCollection<FoodItem> FoodLog { get; set; } = new ObservableCollection<FoodItem>();
+        public Command DeleteCommand { get; }
+
+        private int _caloriesConsumed = 0;
+        private int _proteinConsumed = 0;
+        private int _carbsConsumed = 0;
+        private int _fatsConsumed = 0;
+        private int _waterIntake = 0;
+
+        public NutritionPage()
+        {
+            InitializeComponent();
+            BindingContext = this;
+
+            DeleteCommand = new Command<FoodItem>(OnDeleteFoodItem);
+            FoodLogCollection.ItemsSource = FoodLog;
+
+            UpdateProgress();
+            UpdateChart();
+        }
+
+        private void OnAddFoodClicked(object sender, EventArgs e)
+        {
+            if (int.TryParse(CaloriesEntry.Text, out int calories) && int.TryParse(ProteinEntry.Text, out int protein))
+            {
+                var foodItem = new FoodItem
+                {
+                    Name = FoodNameEntry.Text,
+                    Calories = calories,
+                    Protein = protein
+                };
+
+                FoodLog.Add(foodItem);
+                _caloriesConsumed += calories;
+                _proteinConsumed += protein;
+                _carbsConsumed += calories / 4; // Simplified calculation
+                _fatsConsumed += calories / 9;  // Simplified calculation
+
+                UpdateProgress();
+                UpdateChart();
+
+                FoodNameEntry.Text = string.Empty;
+                CaloriesEntry.Text = string.Empty;
+                ProteinEntry.Text = string.Empty;
+            }
+        }
+
+        private void OnDeleteFoodItem(FoodItem foodItem)
+        {
+            FoodLog.Remove(foodItem);
+            _caloriesConsumed -= foodItem.Calories;
+            _proteinConsumed -= foodItem.Protein;
+            _carbsConsumed -= foodItem.Calories / 4;
+            _fatsConsumed -= foodItem.Calories / 9;
+
+            UpdateProgress();
+            UpdateChart();
+        }
+
+        private void OnAddWaterClicked(object sender, EventArgs e)
+        {
+            _waterIntake++;
+            WaterIntakeLabel.Text = $"{_waterIntake}/8 cups";
+        }
+
+        private void UpdateProgress()
+        {
+            CaloriesLabel.Text = $"{_caloriesConsumed}/2000";
+            ProteinLabel.Text = $"{_proteinConsumed}/150g";
+            CarbsLabel.Text = $"{_carbsConsumed}/250g";
+            FatsLabel.Text = $"{_fatsConsumed}/70g";
+        }
+
+        private void UpdateChart()
+        {
+            var entries = new[]
+            {
+                new ChartEntry(2000 - _caloriesConsumed) { Label = "Remaining", ValueLabel = $"{2000 - _caloriesConsumed}", Color = SKColor.Parse("#77D065") },
+                new ChartEntry(_caloriesConsumed) { Label = "Consumed", ValueLabel = $"{_caloriesConsumed}", Color = SKColor.Parse("#FF1943") }
+            };
+
+            CalorieChart.Chart = new DonutChart { Entries = entries };
+        }
+    }
+
+    public class FoodItem
     {
         public string Name { get; set; }
         public int Calories { get; set; }
         public int Protein { get; set; }
-    }
-
-    private ObservableCollection<FoodEntry> foodLog;
-    private int totalCalories = 0;
-    private int totalProtein = 0;
-    public ICommand DeleteCommand { get; private set; }
-
-    public NutritionPage()
-    {
-        InitializeComponent();
-        foodLog = new ObservableCollection<FoodEntry>();
-        FoodLogCollection.ItemsSource = foodLog;
-
-        DeleteCommand = new Command<FoodEntry>(OnDeleteFoodEntry);
-    }
-
-    private void OnAddFoodClicked(object sender, EventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(FoodNameEntry.Text) ||
-            string.IsNullOrWhiteSpace(CaloriesEntry.Text) ||
-            string.IsNullOrWhiteSpace(ProteinEntry.Text))
-        {
-            DisplayAlert("Error", "Please fill in all fields", "OK");
-            return;
-        }
-
-        if (!int.TryParse(CaloriesEntry.Text, out int calories) ||
-            !int.TryParse(ProteinEntry.Text, out int protein))
-        {
-            DisplayAlert("Error", "Please enter valid numbers", "OK");
-            return;
-        }
-
-        var newEntry = new FoodEntry
-        {
-            Name = FoodNameEntry.Text,
-            Calories = calories,
-            Protein = protein
-        };
-
-        foodLog.Add(newEntry);
-        UpdateTotals();
-        ClearEntries();
-    }
-
-    private void OnDeleteFoodEntry(FoodEntry entry)
-    {
-        if (entry != null)
-        {
-            foodLog.Remove(entry);
-            UpdateTotals();
-        }
-    }
-
-    private void UpdateTotals()
-    {
-        totalCalories = foodLog.Sum(f => f.Calories);
-        totalProtein = foodLog.Sum(f => f.Protein);
-
-        CaloriesLabel.Text = $"{totalCalories}/2000";
-        ProteinLabel.Text = $"{totalProtein}/150g";
-    }
-
-    private void ClearEntries()
-    {
-        FoodNameEntry.Text = string.Empty;
-        CaloriesEntry.Text = string.Empty;
-        ProteinEntry.Text = string.Empty;
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        UpdateTotals();
     }
 }

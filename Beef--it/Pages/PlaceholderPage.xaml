@@ -1,12 +1,126 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Beef__it.PlaceholderPage"
-             Title="PlaceholderPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="Beef__it.Pages.NutritionPage"
+             Title="Nutrition Tracker">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            
+            <!-- Daily Summary Section -->
+            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Daily Summary" 
+                           FontSize="24" 
+                           FontAttributes="Bold"/>
+                    
+                    <!-- Calories Progress -->
+                    <Label Text="Calories:"/>
+                    <ProgressBar Progress="{Binding CaloriesProgress}" 
+                                 ProgressColor="Green" 
+                                 Margin="0,5"/>
+                    <Label x:Name="CaloriesLabel" Text="0/2000" HorizontalOptions="End"/>
+                    
+                    <!-- Protein Progress -->
+                    <Label Text="Protein:"/>
+                    <ProgressBar Progress="{Binding ProteinProgress}" 
+                                 ProgressColor="Blue" 
+                                 Margin="0,5"/>
+                    <Label x:Name="ProteinLabel" Text="0/150g" HorizontalOptions="End"/>
+                    
+                    <!-- Macronutrient Breakdown -->
+                    <Label Text="Macronutrients" 
+                           FontSize="18" 
+                           FontAttributes="Bold"/>
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                        <Label Text="Carbs:" Grid.Column="0" Grid.Row="0"/>
+                        <Label x:Name="CarbsLabel" Text="0/250g" Grid.Column="1" Grid.Row="0"/>
+                        <Label Text="Fats:" Grid.Column="2" Grid.Row="0"/>
+                        <Label x:Name="FatsLabel" Text="0/70g" Grid.Column="3" Grid.Row="0"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Water Intake Tracker -->
+            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Water Intake" 
+                           FontSize="20" 
+                           FontAttributes="Bold"/>
+                    <Label x:Name="WaterIntakeLabel" Text="0/8 cups"/>
+                    <Button Text="Add 1 Cup" 
+                            Clicked="OnAddWaterClicked"
+                            BackgroundColor="{StaticResource Primary}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Add Food Entry Section -->
+            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Add Food" 
+                           FontSize="20" 
+                           FontAttributes="Bold"/>
+                    
+                    <Entry x:Name="FoodNameEntry"
+                           Placeholder="Food Name"/>
+                    
+                    <Entry x:Name="CaloriesEntry"
+                           Placeholder="Calories"
+                           Keyboard="Numeric"/>
+                    
+                    <Entry x:Name="ProteinEntry"
+                           Placeholder="Protein (g)"
+                           Keyboard="Numeric"/>
+                    
+                    <Button x:Name="AddFoodButton"
+                            Text="Add Food"
+                            Clicked="OnAddFoodClicked"
+                            BackgroundColor="{StaticResource Primary}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Food Log Section -->
+            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Today's Food Log" 
+                           FontSize="20" 
+                           FontAttributes="Bold"/>
+                    
+                    <CollectionView x:Name="FoodLogCollection">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Delete"
+                                                       BackgroundColor="Red"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:NutritionPage}}, Path=DeleteCommand}"
+                                                       CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Grid Padding="5" ColumnDefinitions="2*,*,*">
+                                        <Label Text="{Binding Name}" Grid.Column="0"/>
+                                        <Label Text="{Binding Calories, StringFormat='{0} cal'}" Grid.Column="1"/>
+                                        <Label Text="{Binding Protein, StringFormat='{0}g'}" Grid.Column="2"/>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Weekly Calorie Chart -->
+            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Weekly Calorie Intake" 
+                           FontSize="20" 
+                           FontAttributes="Bold"/>
+                    <charts:ChartView x:Name="CalorieChart"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
