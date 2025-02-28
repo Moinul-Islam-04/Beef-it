@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using Microcharts;
-using SkiaSharp;
-using Beef__it.Models;
+//using Microcharts;
+//using SkiaSharp;
+//using Beef__it.Models;
 
 namespace Beef__it
 {
@@ -24,8 +24,8 @@ namespace Beef__it
             DeleteCommand = new Command<FoodItem>(OnDeleteFoodItem);
             FoodLogCollection.ItemsSource = FoodLog;
 
-            UpdateProgress();
-            UpdateChart();
+           // UpdateProgress();
+           // UpdateChart();
         }
 
         private void OnAddFoodClicked(object sender, EventArgs e)
@@ -45,8 +45,8 @@ namespace Beef__it
                 _carbsConsumed += calories / 4; // Simplified calculation
                 _fatsConsumed += calories / 9;  // Simplified calculation
 
-                UpdateProgress();
-                UpdateChart();
+               // UpdateProgress();
+               // UpdateChart();
 
                 FoodNameEntry.Text = string.Empty;
                 CaloriesEntry.Text = string.Empty;
@@ -62,11 +62,11 @@ namespace Beef__it
             _carbsConsumed -= foodItem.Calories / 4;
             _fatsConsumed -= foodItem.Calories / 9;
 
-            UpdateProgress();
-            UpdateChart();
+          //  UpdateProgress();
+          //  UpdateChart();
         }
 
-        private void OnAddWaterClicked(object sender, EventArgs e)
+        /*private void OnAddWaterClicked(object sender, EventArgs e)
         {
             _waterIntake++;
             WaterIntakeLabel.Text = $"{_waterIntake}/8 cups";
@@ -89,7 +89,7 @@ namespace Beef__it
             };
 
             CalorieChart.Chart = new DonutChart { Entries = entries };
-        }
+        }*/
     }
 
     public class FoodItem

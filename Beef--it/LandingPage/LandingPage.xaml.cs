@@ -16,7 +16,7 @@ namespace Beef__it
         }
         private async void NutritionButton_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(NutritionPage());
+            await Navigation.PushAsync(new NutritionPage());
         }
         private async void ProgressPicButton_Clicked(object sender, EventArgs e) {
             await Navigation.PushAsync(new ProgressPicPage());
