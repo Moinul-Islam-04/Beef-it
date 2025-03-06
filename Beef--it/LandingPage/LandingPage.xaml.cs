@@ -5,6 +5,7 @@ namespace Beef__it
     public partial class LandingPage : ContentPage
     {
         public LandingPage() {
+
              InitializeComponent();
         }
         public LandingPage(string Username) : this() {
@@ -20,6 +21,11 @@ namespace Beef__it
         }
         private async void ProgressPicButton_Clicked(object sender, EventArgs e) {
             await Navigation.PushAsync(new ProgressPicPage());
+        }
+
+        private async void CalendarButton_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CalendarPage());
         }
     }
 }

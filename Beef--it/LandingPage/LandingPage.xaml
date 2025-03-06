@@ -25,5 +25,11 @@
             HorizontalOptions="Center"
             Clicked="ProgressPicButton_Clicked" />
         <BoxView Color="Transparent" VerticalOptions="CenterAndExpand" />
+        <Button x:Name="CalendarButton"
+            Text="Gains Calendar"
+            HorizontalOptions="Center"
+            Clicked="CalendarButton_Clicked" />
+        <BoxView Color="Transparent" VerticalOptions="CenterAndExpand" />
+
     </VerticalStackLayout>
 </ContentPage>

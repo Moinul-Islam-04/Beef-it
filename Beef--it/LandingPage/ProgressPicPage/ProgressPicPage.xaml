@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.ProgressPicPage"
              BackgroundColor="Black">
-  <VerticalStackLayout Padding="20" VerticalOptions="CenterAndExpand">
-    <Label Text="Progress Pic Page"
+    <VerticalStackLayout Padding="20" VerticalOptions="CenterAndExpand">
+        <Label Text="Progress Pic Page"
            FontAttributes="Bold"
            FontSize="24"
            TextColor="White"
            HorizontalOptions="Center"/>
-  </VerticalStackLayout>
+    </VerticalStackLayout>
 </ContentPage>
