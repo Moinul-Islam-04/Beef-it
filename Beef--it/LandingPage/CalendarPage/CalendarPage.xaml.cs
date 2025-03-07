@@ -1,52 +1,48 @@
 using Microsoft.Maui.Controls;
-using SQLite;
-using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
+using System.IO;
+using System;
 using System.Windows.Input;
-using System.Diagnostics;
+using System.Linq;
+using System.ComponentModel;
 
 namespace Beef__it
 {
     public partial class CalendarPage : ContentPage, INotifyPropertyChanged
     {
-        public ObservableCollection<CalendarDay> Days { get; set; } = new ObservableCollection<CalendarDay>();
+        public ObservableCollection<CalendarRepository.CalendarDay> Days { get; set; } = new ObservableCollection<CalendarRepository.CalendarDay>();
 
-        // SQLite database connection.
-        private SQLiteAsyncConnection _database;
+        // Use the repository for CalendarDay CRUD.
+        private readonly CalendarRepository _repository;
 
-        // Command that is triggered when a day is tapped on CalendarPage View.
         public ICommand SelectImageCommand { get; }
 
-        public CalendarPage()
+        private int currentMonth;
+        private int currentYear;
+
+        public CalendarPage(CalendarRepository repository)
         {
             InitializeComponent();
             BindingContext = this;
 
-            // Initializes the command with a method that takes a CalendarDay as parameter.
-            SelectImageCommand = new Command<CalendarDay>(OnSelectImage);
+            _repository = repository;
 
-            InitializeDatabaseAndLoadData();
+            SelectImageCommand = new Command<CalendarRepository.CalendarDay>(OnSelectImage);
+
+            //Current month and year for calendar
+            currentMonth = DateTime.Today.Month;
+            currentYear = DateTime.Today.Year;
+
+            InitializeDataAsync();
         }
 
-        // Initialize the SQLite connection, create table if necessary, and load data.
-        private async void InitializeDatabaseAndLoadData()
+        private async Task InitializeDataAsync()
         {
-            // Sets up the database path in user's local file system.
-            var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "calendar.db3");
-            _database = new SQLiteAsyncConnection(dbPath);
-
-            // Creates the table if it doesn't exist.
-            await _database.CreateTableAsync<CalendarDay>();
-
-            // Loads existing calendar data.
-            var savedDays = await _database.Table<CalendarDay>().ToListAsync();
+            var savedDays = await _repository.GetCalendarDaysAsync(currentYear, currentMonth);
             Days.Clear();
 
-            if (savedDays.Count > 0)
+            if (savedDays.Any())
             {
                 foreach (var day in savedDays)
                 {
@@ -55,68 +51,74 @@ namespace Beef__it
             }
             else
             {
-                // If no saved data found, populates the current month.
-                await PopulateCurrentMonth();
-            }
-        }
-
-        // Populates the calendar with days for the current month.
-        private async Task PopulateCurrentMonth()
-        {
-            DateTime today = DateTime.Today;
-            DateTime firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
-            int daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
-
-            for (int i = 0; i < daysInMonth; i++)
-            {
-                DateTime dayDate = firstDayOfMonth.AddDays(i);
-                // Creates the expected file name using the day, month, and year.
-                string fileName = $"{dayDate:ddMMyyyy}.png"; // e.g., "01012022.png"
-                string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
-
-                // Checks if the image file exists, if not makes it null.
-                string? imageSource = File.Exists(filePath) ? filePath : null;
-
-                var calendarDay = new CalendarDay
+                // No saved data: populate current month in the database.
+                await _repository.PopulateCurrentMonthAsync(currentYear, currentMonth);
+                savedDays = await _repository.GetCalendarDaysAsync(currentYear, currentMonth);
+                foreach (var day in savedDays)
                 {
-                    Date = dayDate,
-                    ImageSource = imageSource
-                };
-
-                // Saves to the database.
-                await _database.InsertAsync(calendarDay);
-                Days.Add(calendarDay);
+                    Days.Add(day);
+                }
             }
+
+            MonthYearLabel.Text = new DateTime(currentYear, currentMonth, 1).ToString("MMMM yyyy");
+        }
+        private async void PreviousMonthButton_Clicked(object sender, EventArgs e)
+        {
+            // Navigates to the previous month.
+            if (currentMonth == 1)
+            {
+                currentMonth = 12;
+                currentYear--;
+            }
+            else
+            {
+                currentMonth--;
+            }
+            await InitializeDataAsync();
         }
 
-        // Command handler for when a day is tapped.
-        private async void OnSelectImage(CalendarDay day)
+        private async void NextMonthButton_Clicked(object sender, EventArgs e)
+        {
+            // Navigate to the next month.
+            if (currentMonth == 12)
+            {
+                currentMonth = 1;
+                currentYear++;
+            }
+            else
+            {
+                currentMonth++;
+            }
+            await InitializeDataAsync();
+        }
+
+
+        // Handler for selecting an image.
+        private async void OnSelectImage(CalendarRepository.CalendarDay day)
         {
             try
             {
-                // Lets the user pick a new image from local file system.
                 var result = await MediaPicker.PickPhotoAsync();
                 if (result != null)
                 {
                     string pickedImagePath = result.FullPath;
-
-                    // Builds the destination file name based on the CalendarDay's date.
-                    string fileName = $"{day.Date:ddMMyyyy}.png";
+                    string fileName = $"{day.Date:ddMMyyyy}_{DateTime.Now.Ticks}.png";
                     string destinationPath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 
-                    // Copies the selected image to the destination overwrites if needed).(
+                    if (File.Exists(destinationPath))
+                    {
+                        File.Delete(destinationPath);
+                    }
+
                     using (var sourceStream = File.OpenRead(pickedImagePath))
                     using (var destinationStream = File.Create(destinationPath))
                     {
                         await sourceStream.CopyToAsync(destinationStream);
                     }
 
-                    // Updates the CalendarDay's ImageSource.
-                    // Appends string with a timestamp using ticks.
-                    day.ImageSource = destinationPath + $"?t={DateTime.Now.Ticks}"; //Ticks are smallest unit of time in C#
-                                                                                    //Added in case user adds new picture within same day.
-                    // Updates the record in the database.
-                    await _database.UpdateAsync(day);
+                    // Update the day image source. Append a query string to force refresh.
+                    day.ImageSource = destinationPath + $"?t={DateTime.Now.Ticks}";
+                    await _repository.UpdateCalendarDayAsync(day);
                 }
             }
             catch (Exception ex)
@@ -125,58 +127,5 @@ namespace Beef__it
             }
         }
 
-        // CalendarDay model with SQLite attributes and INotifyPropertyChanged.
-        public class CalendarDay : INotifyPropertyChanged
-        {
-            private int _id;
-            private DateTime _date;
-            private string? _imageSource;
-
-            [PrimaryKey, AutoIncrement] // PrimaryKey tells the SQLite database to use property below (Id) for identification0.
-            public int Id               // AutoIncrement sets ID to next available when setter is called.
-            {
-                get => _id;
-                set
-                {
-                    if (_id != value)
-                    {
-                        _id = value;
-                        OnPropertyChanged();
-                    }
-                }
-            }
-
-            public DateTime Date
-            {
-                get => _date;
-                set
-                {
-                    if (_date != value)
-                    {
-                        _date = value;
-                        OnPropertyChanged();
-                    }
-                }
-            }
-
-            public string ImageSource
-            {
-                get => _imageSource;
-                set
-                {
-                    if (_imageSource != value)
-                    {
-                        _imageSource = value;
-                        OnPropertyChanged();
-                    }
-                }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-            protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }
