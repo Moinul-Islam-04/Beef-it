@@ -13,7 +13,10 @@
     <CollectionView x:Name="WorkoutsCollectionView">
       <CollectionView.ItemTemplate>
         <DataTemplate>
-          <Frame BorderColor="Black" CornerRadius="10" Padding="10" Margin="0,5">
+          <Frame BorderColor="Black" 
+                 CornerRadius="10" 
+                 Padding="10" 
+                 Margin="0,5">
             <VerticalStackLayout>
               <Label Text="{Binding Date, StringFormat='{0:MM/dd/yyyy}'}"
                      TextColor="Black"/>

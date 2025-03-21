@@ -8,6 +8,7 @@ namespace Beef__it
         {
             InitializeComponent();
             WorkoutsCollectionView.ItemsSource = WorkoutService.Workouts;
+            
         }
     }
 }
