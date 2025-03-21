@@ -7,6 +7,7 @@ namespace Beef__it
         public WorkoutHistoryEntryPage()
         {
             InitializeComponent();
+            WorkoutsCollectionView.ItemsSource = WorkoutService.Workouts;
         }
     }
 }

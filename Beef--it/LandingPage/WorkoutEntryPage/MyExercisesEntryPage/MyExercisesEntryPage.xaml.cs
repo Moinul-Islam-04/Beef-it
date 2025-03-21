@@ -14,9 +14,24 @@ namespace Beef__it
         {
             DateTime selectedDate = ExerciseDatePicker.Date;
             string workoutDetails = WorkoutDetailsEditor.Text;
+            
+
+            /*
             await DisplayAlert("Workout Saved",
                 $"Workout for {selectedDate.ToString("D")} saved!\nDetails: {workoutDetails}",
                 "OK");
+                */
+
+            var newWorkout = new Workout {
+                Date = selectedDate,
+                Details = workoutDetails
+            };
+
+            WorkoutService.Workouts.Add(newWorkout);
+
+            await Navigation.PushAsync(new WorkoutHistoryEntryPage());
+
+            WorkoutDetailsEditor.Text = string.Empty;
         }
     }
 }
