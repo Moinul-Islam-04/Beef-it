@@ -1,40 +1,47 @@
-namespace MauiApp1;
-using MauiApp1.Services;
-public partial class CreateAccountPage : ContentPage
+using Microsoft.Maui.Controls.Xaml; // Add this using directive
+using Microsoft.Maui.Controls;
+using System;
+
+namespace Beef__it
 {
-	public CreateAccountPage()
-	{
-		InitializeComponent();
-	}
-
-	private static Dictionary<string, string> existingAccounts = new Dictionary<string, string>();
-
-    private async void CreateAccountButtonClicked(object sender, EventArgs e)
+    public partial class CreateAccountPage : ContentPage
     {
-        string username = newUsernameEntry.Text?.Trim();
-        string password = newPasswordEntry.Text?.Trim();
+        private static Dictionary<string, string> accounts = new Dictionary<string, string>();
 
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        public CreateAccountPage()
         {
-            await DisplayAlert("Error", "Please enter both a username and password.", "OK");
-            return;
+            InitializeComponent();
         }
 
-        if (AccountManager.IsUsernameTaken(username))
+        private async void CreateAccountButtonClicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Error", "Username already exists. Choose another.", "OK");
-        }
-        else
-        {
-            AccountManager.AddAccount(username, password);
-            await DisplayAlert("Success", $"Account '{username}' created!", "OK");
+            string username = newUsernameEntry.Text?.Trim();
+            string password = newPasswordEntry.Text?.Trim();
 
-            // Navigate back to the login page
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                await DisplayAlert("Error", "Please enter both a username and password.", "OK");
+                return;
+            }
+
+            // Simple account creation without AccountManager
+            if (accounts.ContainsKey(username))
+            {
+                await DisplayAlert("Error", "Username already exists. Choose another.", "OK");
+            }
+            else
+            {
+                accounts[username] = password;
+                await DisplayAlert("Success", $"Account '{username}' created!", "OK");
+                // Navigate back to the login page
+                await Navigation.PopAsync();
+            }
+        }
+
+        private async void BackButtonClicked(object sender, EventArgs e)
+        {
+            // Simply go back to the previous page
             await Navigation.PopAsync();
         }
     }
-    private async void BackButtonClicked(object sender, EventArgs e)
-	{ 
-		await Navigation.PushAsync(new MainPage());
-	}
 }
