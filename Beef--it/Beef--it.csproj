@@ -66,6 +66,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="LoginPage\ForgotPassword.xaml.cs">
+	    <DependentUpon>ForgotPassword.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="LoginPage\ForgotPassword.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="PlaceholderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

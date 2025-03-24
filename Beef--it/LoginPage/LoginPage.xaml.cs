@@ -72,5 +72,10 @@ namespace Beef__it
         {
             await Navigation.PushAsync(new CreateAccountPage());
         }
+
+        private async void OnForgotPasswordClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ForgotPasswordPage());
+        }
     }
 }

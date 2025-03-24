@@ -19,6 +19,8 @@ namespace Beef__it
         public int Age { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
+        public string PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiration { get; set; }
     }
 
     // DTO - Separates data transfer from database model
@@ -31,6 +33,9 @@ namespace Beef__it
         public int Age { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
+
+        public string PasswordResetToken { get; set; }
+        public DateTime? PasswordResetTokenExpiration { get; set; }
 
         // Method to convert DTO to User entity
         public User ToEntity(string passwordHash)

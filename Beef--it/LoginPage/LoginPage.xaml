@@ -1,41 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.LoginPage"
-             BackgroundColor="Black">
+             BackgroundColor="#121212">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+        <VerticalStackLayout 
+            Spacing="25" 
+            Padding="30"
+            VerticalOptions="Center">
 
-            <Label
-                Text="Login" 
-                FontSize="24" 
+            <!-- Logo Placeholder -->
+            <Image 
+                Source="logo.png" 
+                HeightRequest="120" 
+                WidthRequest="120"
                 HorizontalOptions="Center"/>
 
-            <Entry 
-                x:Name="UsernameEntry" 
-                Placeholder="Enter Username" />
+            <Frame 
+                BorderColor="Transparent" 
+                BackgroundColor="#1E1E1E" 
+                CornerRadius="20" 
+                Padding="20" 
+                HasShadow="True">
 
-            <Entry
-                x:Name="PasswordEntry"
-                Placeholder="Enter Password"
-                IsPassword="True"/>
+                <VerticalStackLayout Spacing="15">
+                    <Label
+                        Text="Welcome Back" 
+                        FontSize="24" 
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        TextColor="#A020F0"/>
 
-            <Button
-                Text="Login"
-                Clicked="OnLoginClicked"/>
+                    <Border 
+                        Stroke="#3A3A3A" 
+                        StrokeThickness="1" 
+                        BackgroundColor="#2A2A2A" 
+                        StrokeShape="RoundRectangle 10">
+                        <Entry 
+                            x:Name="UsernameEntry" 
+                            Placeholder="Username" 
+                            PlaceholderColor="#7A7A7A"
+                            TextColor="#FFFFFF"
+                            Background="Transparent"
+                            FontSize="16"/>
+                    </Border>
+
+                    <Border 
+                        Stroke="#3A3A3A" 
+                        StrokeThickness="1" 
+                        BackgroundColor="#2A2A2A" 
+                        StrokeShape="RoundRectangle 10">
+                        <Entry
+                            x:Name="PasswordEntry"
+                            Placeholder="Password"
+                            PlaceholderColor="#7A7A7A"
+                            TextColor="#FFFFFF"
+                            IsPassword="True"
+                            Background="Transparent"
+                            FontSize="16"/>
+                    </Border>
+
+                    <Button
+                        Text="Login"
+                        BackgroundColor="#A020F0"
+                        TextColor="White"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        Clicked="OnLoginClicked"
+                        HeightRequest="50"/>
+
+                    <Label 
+                        Text="Forgot Password?" 
+                        TextColor="#A020F0"
+                        HorizontalOptions="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnForgotPasswordClicked"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </VerticalStackLayout>
+            </Frame>
 
             <Button 
-                Text="Create Account"
+                Text="Create New Account" 
+                BackgroundColor="Transparent" 
+                TextColor="#A020F0"
+                BorderColor="#A020F0"
+                BorderWidth="2"
+                CornerRadius="10"
                 Clicked="OnCreateAccountClicked"/>
 
             <Label
                 x:Name="ErrorMessage"
-                TextColor="Red"
+                TextColor="#FF4500"
+                HorizontalOptions="Center"
                 IsVisible="False"/>
         </VerticalStackLayout>
     </ScrollView>
-    
 </ContentPage>
