@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Beef__it.Database;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 
@@ -20,7 +21,7 @@ namespace Beef__it
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddSingleton<ConnectionFactory>();
             return builder.Build();
         }
     }

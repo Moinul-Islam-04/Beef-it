@@ -3,30 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.CreateAccountPage"
              Title="Create Account">
-    <VerticalStackLayout
-        Padding="30,0"
-        Spacing="25">
-        <Label 
-            Text="Welcome to Beef-It"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"/>
-        <Label
-            Text="Create an account"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
-        <Entry
-            x:Name="newUsernameEntry"
-            Placeholder="Enter Username"/>
-        <Entry
-            x:Name="newPasswordEntry"
-            Placeholder="Enter Password"
-            IsPassword="True"/>
-        <Button
-            Text="Create"
-            Clicked="CreateAccountButtonClicked"/>
-        <Button
-            Text="Back to Sign-In"
-            Clicked="BackButtonClicked"/>
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Label Text="Create Your Account" 
+                   FontSize="24" 
+                   HorizontalOptions="Center"/>
+
+            <Entry x:Name="firstNameEntry"
+                   Placeholder="First Name"
+                   Keyboard="Text"/>
+
+            <Entry x:Name="lastNameEntry"
+                   Placeholder="Last Name"
+                   Keyboard="Text"/>
+
+            <Entry x:Name="newUsernameEntry"
+                   Placeholder="Username"
+                   Keyboard="Text"/>
+
+            <Entry x:Name="newPasswordEntry"
+                   Placeholder="Password"
+                   IsPassword="True"/>
+
+            <Entry x:Name="ageEntry"
+                   Placeholder="Age"
+                   Keyboard="Numeric"/>
+
+            <Entry x:Name="heightEntry"
+                   Placeholder="Height (cm)"
+                   Keyboard="Numeric"/>
+
+            <Entry x:Name="weightEntry"
+                   Placeholder="Weight (kg)"
+                   Keyboard="Numeric"/>
+
+            <Button Text="Create Account"
+                    Clicked="CreateAccountButtonClicked"
+                    HorizontalOptions="Fill"/>
+
+            <Button Text="Back"
+                    Clicked="BackButtonClicked"
+                    HorizontalOptions="Fill"
+                    Style="{StaticResource OutlinedButton}"/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
     

@@ -1,14 +1,19 @@
-﻿using Microsoft.Maui.Controls.Xaml; // Add this using directive
+﻿using Microsoft.Maui.Controls.Xaml;
 using Microsoft.Maui.Controls;
 using System;
+using Beef__it.Database;
+using BCrypt.Net;
 
 namespace Beef__it
 {
     public partial class LoginPage : ContentPage
     {
+        private readonly UserRepository _userRepository;
+
         public LoginPage()
         {
             InitializeComponent();
+            _userRepository = new UserRepository();
         }
 
         private async void OnLoginClicked(object sender, EventArgs e)
@@ -22,13 +27,17 @@ namespace Beef__it
                 return;
             }
 
-            // Replace this with direct validation if AccountManager doesn't exist
-            if (IsValidUser(username, password)) // Using local method instead of AccountManager
-            {
-                await DisplayAlert("Success", "Login successful!", "OK");
-                // Navigate to HomePage or create a LandingPage class
-                Application.Current.MainPage = new NavigationPage(new LandingPage());
+            // Validate user credentials against the database
+            bool isValidUser = await ValidateUserCredentials(username, password);
 
+            if (isValidUser)
+            {
+                // Store the logged-in username (you might want to use a more secure method in a real app)
+                Preferences.Set("LoggedInUsername", username);
+
+                await DisplayAlert("Success", "Login successful!", "OK");
+                // Navigate to HomePage or LandingPage
+                Application.Current.MainPage = new NavigationPage(new LandingPage());
             }
             else
             {
@@ -36,16 +45,31 @@ namespace Beef__it
             }
         }
 
-        // Local validation method to replace AccountManager.ValidateUser
-        private bool IsValidUser(string username, string password)
+        private async Task<bool> ValidateUserCredentials(string username, string password)
         {
-            // Simple validation logic - replace with your actual logic
-            return username == "admin" && password == "password123";
+            try
+            {
+                // Find user by username
+                var user = await _userRepository.GetUserByUsernameAsync(username);
+
+                // If user not found, return false
+                if (user == null)
+                {
+                    return false;
+                }
+
+                // Verify password using BCrypt
+                return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            }
+            catch (Exception)
+            {
+                // Log the exception in a real-world scenario
+                return false;
+            }
         }
 
         private async void OnCreateAccountClicked(object sender, EventArgs e)
         {
-            // Make sure CreateAccountPage exists in your project
             await Navigation.PushAsync(new CreateAccountPage());
         }
     }
