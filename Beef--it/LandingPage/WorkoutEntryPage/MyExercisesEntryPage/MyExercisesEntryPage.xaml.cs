@@ -14,9 +14,20 @@ namespace Beef__it
         {
             DateTime selectedDate = ExerciseDatePicker.Date;
             string workoutDetails = WorkoutDetailsEditor.Text;
+            
+            var historyItem = new Models.ExerciseHistoryItem
+            {
+                ExerciseName = workoutDetails,
+                SelectedDate = selectedDate
+            };
+
+            Services.ExerciseHistoryService.AddToHistory(historyItem);
+
             await DisplayAlert("Workout Saved",
                 $"Workout for {selectedDate.ToString("D")} saved!\nDetails: {workoutDetails}",
                 "OK");
+
+            await Navigation.PushAsync(new WorkoutHistoryEntryPage());
         }
     }
 }

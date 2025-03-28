@@ -11,7 +11,7 @@ namespace Beef__it
         }
         private async void AllExercisesButton_Clicked(object sender, EventArgs e)
         {
-            
+            await Navigation.PushAsync(new AllExercisesPage());
         }
         private async void MyExercisesButton_Clicked(object sender, EventArgs e)
         {
