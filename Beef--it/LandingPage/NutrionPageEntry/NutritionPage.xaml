@@ -3,58 +3,107 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.NutritionPage"
              xmlns:local="clr-namespace:Beef__it"
-             Title="Nutrition Tracker">
+             Title="Nutrition Tracker"
+             BackgroundColor="#121212">
 
-    <ScrollView>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryPurple">#7E57C2</Color>
+            <Color x:Key="SecondaryPurple">#5E35B1</Color>
+            <Color x:Key="AccentColor">#D1C4E9</Color>
+            <Color x:Key="TextColor">#FFFFFF</Color>
+            <Color x:Key="BackgroundDark">#1E1E1E</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView BackgroundColor="#121212">
         <VerticalStackLayout Spacing="20" Padding="20">
-            
+
             <!-- Daily Summary Section -->
-            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+            <Frame BorderColor="{StaticResource SecondaryPurple}" 
+                   BackgroundColor="{StaticResource BackgroundDark}" 
+                   Padding="15" 
+                   CornerRadius="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Daily Summary" 
                            FontSize="24" 
-                           FontAttributes="Bold"/>
+                           TextColor="{StaticResource TextColor}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
-                        <Label Text="Calories:" Grid.Column="0" Grid.Row="0"/>
-                        <Label x:Name="CaloriesLabel" Text="0/2000" Grid.Column="1" Grid.Row="0"/>
-                        <Label Text="Protein:" Grid.Column="0" Grid.Row="1"/>
-                        <Label x:Name="ProteinLabel" Text="0/150g" Grid.Column="1" Grid.Row="1"/>
+                        <Label Text="Calories:" 
+                               TextColor="{StaticResource AccentColor}" 
+                               Grid.Column="0" Grid.Row="0"/>
+                        <Label x:Name="CaloriesLabel" 
+                               Text="0/2000" 
+                               TextColor="{StaticResource TextColor}"
+                               HorizontalOptions="End"
+                               Grid.Column="1" Grid.Row="0"/>
+                        <Label Text="Protein:" 
+                               TextColor="{StaticResource AccentColor}"
+                               Grid.Column="0" Grid.Row="1"/>
+                        <Label x:Name="ProteinLabel" 
+                               Text="0/150g" 
+                               TextColor="{StaticResource TextColor}"
+                               HorizontalOptions="End"
+                               Grid.Column="1" Grid.Row="1"/>
                     </Grid>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Add Food Entry Section -->
-            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+            <Frame BorderColor="{StaticResource SecondaryPurple}" 
+                   BackgroundColor="{StaticResource BackgroundDark}" 
+                   Padding="15" 
+                   CornerRadius="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Add Food" 
                            FontSize="20" 
-                           FontAttributes="Bold"/>
-                    
+                           TextColor="{StaticResource TextColor}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+
                     <Entry x:Name="FoodNameEntry"
-                           Placeholder="Food Name"/>
-                    
+                           Placeholder="Food Name"
+                           PlaceholderColor="{StaticResource AccentColor}"
+                           TextColor="{StaticResource TextColor}"
+                           BackgroundColor="#2C2C2C"/>
+
                     <Entry x:Name="CaloriesEntry"
                            Placeholder="Calories"
-                           Keyboard="Numeric"/>
-                    
+                           Keyboard="Numeric"
+                           PlaceholderColor="{StaticResource AccentColor}"
+                           TextColor="{StaticResource TextColor}"
+                           BackgroundColor="#2C2C2C"/>
+
                     <Entry x:Name="ProteinEntry"
                            Placeholder="Protein (g)"
-                           Keyboard="Numeric"/>
-                    
+                           Keyboard="Numeric"
+                           PlaceholderColor="{StaticResource AccentColor}"
+                           TextColor="{StaticResource TextColor}"
+                           BackgroundColor="#2C2C2C"/>
+
                     <Button x:Name="AddFoodButton"
                             Text="Add Food"
                             Clicked="OnAddFoodClicked"
-                            BackgroundColor="{StaticResource Primary}"/>
+                            BackgroundColor="{StaticResource PrimaryPurple}"
+                            TextColor="{StaticResource TextColor}"
+                            CornerRadius="10"/>
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Food Log Section -->
-            <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+            <Frame BorderColor="{StaticResource SecondaryPurple}" 
+                   BackgroundColor="{StaticResource BackgroundDark}" 
+                   Padding="15" 
+                   CornerRadius="15">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Today's Food Log" 
                            FontSize="20" 
-                           FontAttributes="Bold"/>
-                    
+                           TextColor="{StaticResource TextColor}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+
                     <CollectionView x:Name="FoodLogCollection">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -67,10 +116,18 @@
                                                        CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
-                                    <Grid Padding="5" ColumnDefinitions="2*,*,*">
-                                        <Label Text="{Binding Name}" Grid.Column="0"/>
-                                        <Label Text="{Binding Calories, StringFormat='{0} cal'}" Grid.Column="1"/>
-                                        <Label Text="{Binding Protein, StringFormat='{0}g'}" Grid.Column="2"/>
+                                    <Grid Padding="5" ColumnDefinitions="2*,*,*" BackgroundColor="#2C2C2C">
+                                        <Label Text="{Binding Name}" 
+                                               TextColor="{StaticResource TextColor}"
+                                               Grid.Column="0"/>
+                                        <Label Text="{Binding Calories, StringFormat='{0} cal'}" 
+                                               TextColor="{StaticResource AccentColor}"
+                                               Grid.Column="1"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="{Binding Protein, StringFormat='{0}g'}" 
+                                               TextColor="{StaticResource AccentColor}"
+                                               Grid.Column="2"
+                                               HorizontalOptions="End"/>
                                     </Grid>
                                 </SwipeView>
                             </DataTemplate>
@@ -78,7 +135,7 @@
                     </CollectionView>
                 </VerticalStackLayout>
             </Frame>
-            
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
