@@ -30,7 +30,7 @@ namespace Beef__it
         {
             InitializeComponent();
             Services = services;
-            MainPage = new NavigationPage(new LandingPage());
+            MainPage = new NavigationPage(new LoginPage());
         }
     }
 }
