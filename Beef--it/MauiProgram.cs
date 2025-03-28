@@ -22,6 +22,8 @@ namespace Beef__it
             builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<ConnectionFactory>();
+            builder.Services.AddSingleton<CalendarRepository>();// Makes it so Calendar SQLite database is only created once
+            builder.Services.AddTransient<CalendarPage>();//Allows for Dependency Injection (Create CalendarPage with an already created Repository)
             return builder.Build();
         }
     }

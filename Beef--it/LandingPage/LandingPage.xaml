@@ -55,6 +55,16 @@
                             HorizontalOptions="FillAndExpand"
                             Clicked="ProgressPicButton_Clicked"
                             HeightRequest="50"/>
+                    
+                    <Button x:Name="CalendarButton"
+                            Text="Gains Calendar"
+                            BackgroundColor="#A020F0"
+                            TextColor="White"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="CalendarButton_Clicked"
+                            HeightRequest="50"/>        
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>
