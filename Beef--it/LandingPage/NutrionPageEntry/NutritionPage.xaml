@@ -13,11 +13,33 @@
             <Color x:Key="AccentColor">#D1C4E9</Color>
             <Color x:Key="TextColor">#FFFFFF</Color>
             <Color x:Key="BackgroundDark">#1E1E1E</Color>
+            <Color x:Key="ProgressBackground">#333333</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ScrollView BackgroundColor="#121212">
         <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Date Selector -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button Text="&lt;" 
+                        BackgroundColor="{StaticResource PrimaryPurple}" 
+                        TextColor="{StaticResource TextColor}"
+                        CornerRadius="5"
+                        WidthRequest="40"
+                        Clicked="OnPreviousDateClicked"/>
+                <Label x:Name="DateLabel" 
+                       Text="Today" 
+                       TextColor="{StaticResource TextColor}" 
+                       FontSize="18" 
+                       VerticalOptions="Center"/>
+                <Button Text="&gt;" 
+                        BackgroundColor="{StaticResource PrimaryPurple}" 
+                        TextColor="{StaticResource TextColor}"
+                        CornerRadius="5"
+                        WidthRequest="40"
+                        Clicked="OnNextDateClicked"/>
+            </HorizontalStackLayout>
 
             <!-- Daily Summary Section -->
             <Frame BorderColor="{StaticResource SecondaryPurple}" 
@@ -30,24 +52,93 @@
                            TextColor="{StaticResource TextColor}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
-                        <Label Text="Calories:" 
-                               TextColor="{StaticResource AccentColor}" 
-                               Grid.Column="0" Grid.Row="0"/>
+
+                    <!-- Calories -->
+                    <Label Text="Calories:" 
+                           TextColor="{StaticResource AccentColor}"/>
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                        <Frame BackgroundColor="{StaticResource ProgressBackground}" 
+                              Padding="0" 
+                              CornerRadius="5" 
+                              HeightRequest="20" 
+                              Grid.Column="0">
+                            <Frame x:Name="CaloriesProgressFrame" 
+                                  BackgroundColor="{StaticResource PrimaryPurple}" 
+                                  HorizontalOptions="Start" 
+                                  WidthRequest="0" 
+                                  Margin="0" 
+                                  Padding="0" 
+                                  CornerRadius="5"/>
+                        </Frame>
                         <Label x:Name="CaloriesLabel" 
                                Text="0/2000" 
                                TextColor="{StaticResource TextColor}"
                                HorizontalOptions="End"
-                               Grid.Column="1" Grid.Row="0"/>
-                        <Label Text="Protein:" 
-                               TextColor="{StaticResource AccentColor}"
-                               Grid.Column="0" Grid.Row="1"/>
+                               Grid.Column="1"
+                               Margin="10,0,0,0"/>
+                    </Grid>
+
+                    <!-- Protein -->
+                    <Label Text="Protein:" 
+                           TextColor="{StaticResource AccentColor}"/>
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto">
+                        <Frame BackgroundColor="{StaticResource ProgressBackground}" 
+                              Padding="0" 
+                              CornerRadius="5" 
+                              HeightRequest="20" 
+                              Grid.Column="0">
+                            <Frame x:Name="ProteinProgressFrame" 
+                                  BackgroundColor="{StaticResource PrimaryPurple}" 
+                                  HorizontalOptions="Start" 
+                                  WidthRequest="0" 
+                                  Margin="0" 
+                                  Padding="0" 
+                                  CornerRadius="5"/>
+                        </Frame>
                         <Label x:Name="ProteinLabel" 
                                Text="0/150g" 
                                TextColor="{StaticResource TextColor}"
                                HorizontalOptions="End"
-                               Grid.Column="1" Grid.Row="1"/>
+                               Grid.Column="1"
+                               Margin="10,0,0,0"/>
                     </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Quick Add Buttons -->
+            <Frame BorderColor="{StaticResource SecondaryPurple}" 
+                   BackgroundColor="{StaticResource BackgroundDark}" 
+                   Padding="15" 
+                   CornerRadius="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Quick Add" 
+                           FontSize="20" 
+                           TextColor="{StaticResource TextColor}"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Button Text="Breakfast" 
+                                BackgroundColor="{StaticResource PrimaryPurple}"
+                                TextColor="{StaticResource TextColor}"
+                                CornerRadius="10"
+                                Clicked="OnQuickAddClicked"
+                                CommandParameter="Breakfast"/>
+
+                        <Button Text="Lunch" 
+                                BackgroundColor="{StaticResource PrimaryPurple}"
+                                TextColor="{StaticResource TextColor}"
+                                CornerRadius="10"
+                                Clicked="OnQuickAddClicked"
+                                CommandParameter="Lunch"/>
+
+                        <Button Text="Dinner" 
+                                BackgroundColor="{StaticResource PrimaryPurple}"
+                                TextColor="{StaticResource TextColor}"
+                                CornerRadius="10"
+                                Clicked="OnQuickAddClicked"
+                                CommandParameter="Dinner"/>
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
 
@@ -62,6 +153,19 @@
                            TextColor="{StaticResource TextColor}"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
+
+                    <Picker x:Name="MealTypePicker"
+                            Title="Select Meal Type"
+                            BackgroundColor="#2C2C2C"
+                            TextColor="{StaticResource TextColor}"
+                            TitleColor="{StaticResource AccentColor}">
+                        <Picker.Items>
+                            <x:String>Breakfast</x:String>
+                            <x:String>Lunch</x:String>
+                            <x:String>Dinner</x:String>
+                            <x:String>Snack</x:String>
+                        </Picker.Items>
+                    </Picker>
 
                     <Entry x:Name="FoodNameEntry"
                            Placeholder="Food Name"
@@ -104,7 +208,33 @@
                            FontAttributes="Bold"
                            HorizontalOptions="Center"/>
 
-                    <CollectionView x:Name="FoodLogCollection">
+                    <!-- Header Row -->
+                    <Grid ColumnDefinitions="2*,*,*,*" 
+                          BackgroundColor="#333333" 
+                          Padding="5">
+                        <Label Text="Food" 
+                               TextColor="{StaticResource AccentColor}" 
+                               FontAttributes="Bold" 
+                               Grid.Column="0"/>
+                        <Label Text="Meal" 
+                               TextColor="{StaticResource AccentColor}" 
+                               FontAttributes="Bold" 
+                               Grid.Column="1"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Cal" 
+                               TextColor="{StaticResource AccentColor}" 
+                               FontAttributes="Bold" 
+                               Grid.Column="2"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Protein" 
+                               TextColor="{StaticResource AccentColor}" 
+                               FontAttributes="Bold" 
+                               Grid.Column="3"
+                               HorizontalOptions="End"/>
+                    </Grid>
+
+                    <CollectionView x:Name="FoodLogCollection" 
+                                   HeightRequest="300">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <SwipeView>
@@ -116,17 +246,23 @@
                                                        CommandParameter="{Binding .}"/>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
-                                    <Grid Padding="5" ColumnDefinitions="2*,*,*" BackgroundColor="#2C2C2C">
+                                    <Grid Padding="5" 
+                                          ColumnDefinitions="2*,*,*,*" 
+                                          BackgroundColor="#2C2C2C">
                                         <Label Text="{Binding Name}" 
                                                TextColor="{StaticResource TextColor}"
                                                Grid.Column="0"/>
-                                        <Label Text="{Binding Calories, StringFormat='{0} cal'}" 
+                                        <Label Text="{Binding MealType}" 
                                                TextColor="{StaticResource AccentColor}"
                                                Grid.Column="1"
                                                HorizontalOptions="Center"/>
-                                        <Label Text="{Binding Protein, StringFormat='{0}g'}" 
+                                        <Label Text="{Binding Calories, StringFormat='{0}'}" 
                                                TextColor="{StaticResource AccentColor}"
                                                Grid.Column="2"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="{Binding Protein, StringFormat='{0}g'}" 
+                                               TextColor="{StaticResource AccentColor}"
+                                               Grid.Column="3"
                                                HorizontalOptions="End"/>
                                     </Grid>
                                 </SwipeView>
@@ -135,7 +271,6 @@
                     </CollectionView>
                 </VerticalStackLayout>
             </Frame>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
