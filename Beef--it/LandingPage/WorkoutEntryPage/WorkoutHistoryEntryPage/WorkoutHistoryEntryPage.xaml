@@ -2,12 +2,32 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.WorkoutHistoryEntryPage"
+             Title="Workout History"
              BackgroundColor="Black">
-  <VerticalStackLayout Padding="20" VerticalOptions="CenterAndExpand">
+
+  <VerticalStackLayout Padding="20" Spacing="10">
     <Label Text="History Page"
            FontAttributes="Bold"
            FontSize="24"
            TextColor="White"
            HorizontalOptions="Center"/>
-  </VerticalStackLayout>
+    <CollectionView x:Name="HistoryCollectionView">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Black" 
+                           CornerRadius="10" 
+                           Padding="10" 
+                           Margin="0,5">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding SelectedDate, StringFormat='{0:MM/dd/yyyy}'}"
+                                   TextColor="Black"/>
+                            <Label Text="{Binding ExerciseName}" 
+                                   TextColor="Black" 
+                                   FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
 </ContentPage>
