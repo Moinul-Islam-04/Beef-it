@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Beef__it.CreateAccountPage"
+             Title="Create Account">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Label Text="Create Your Account" 
+                   FontSize="24" 
+                   HorizontalOptions="Center"/>
+
+            <Entry x:Name="firstNameEntry"
+                   Placeholder="First Name"
+                   Keyboard="Text"/>
+
+            <Entry x:Name="lastNameEntry"
+                   Placeholder="Last Name"
+                   Keyboard="Text"/>
+
+            <Entry x:Name="newUsernameEntry"
+                   Placeholder="Username"
+                   Keyboard="Text"/>
+
+            <Entry x:Name="newPasswordEntry"
+                   Placeholder="Password"
+                   IsPassword="True"/>
+
+            <Entry x:Name="ageEntry"
+                   Placeholder="Age"
+                   Keyboard="Numeric"/>
+
+            <Entry x:Name="heightEntry"
+                   Placeholder="Height (cm)"
+                   Keyboard="Numeric"/>
+
+            <Entry x:Name="weightEntry"
+                   Placeholder="Weight (kg)"
+                   Keyboard="Numeric"/>
+
+            <Button Text="Create Account"
+                    Clicked="CreateAccountButtonClicked"
+                    HorizontalOptions="Fill"/>
+
+            <Button Text="Back"
+                    Clicked="BackButtonClicked"
+                    HorizontalOptions="Fill"
+                    Style="{StaticResource OutlinedButton}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+    

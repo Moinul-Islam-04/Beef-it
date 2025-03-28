@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Beef__it.LandingPage"
+             BackgroundColor="#121212">
+
+    <ScrollView>
+        <VerticalStackLayout 
+            Padding="30" 
+            Spacing="25" 
+            VerticalOptions="FillAndExpand">
+
+            <Label x:Name="TitleLabel"
+                   Text="Hello [Name]"
+                   FontAttributes="Bold"
+                   FontSize="28"
+                   TextColor="#A020F0"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start" />
+
+            <Frame 
+                BorderColor="Transparent" 
+                BackgroundColor="#1E1E1E" 
+                CornerRadius="20" 
+                Padding="20" 
+                HasShadow="True">
+
+                <VerticalStackLayout Spacing="15">
+                    <Button x:Name="WorkoutButton"
+                            Text="Workout"
+                            BackgroundColor="#A020F0"
+                            TextColor="White"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="WorkoutButton_Clicked"
+                            HeightRequest="50"/>
+
+                    <Button x:Name="NutritionButton"
+                            Text="Nutrition"
+                            BackgroundColor="#A020F0"
+                            TextColor="White"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="NutritionButton_Clicked"
+                            HeightRequest="50"/>
+
+                    <Button x:Name="ProgressPicButton"
+                            Text="Take a Progress Pic"
+                            BackgroundColor="#A020F0"
+                            TextColor="White"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="ProgressPicButton_Clicked"
+                            HeightRequest="50"/>
+                    
+                    <Button x:Name="CalendarButton"
+                            Text="Gains Calendar"
+                            BackgroundColor="#A020F0"
+                            TextColor="White"
+                            CornerRadius="10"
+                            FontAttributes="Bold"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="CalendarButton_Clicked"
+                            HeightRequest="50"/>        
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
