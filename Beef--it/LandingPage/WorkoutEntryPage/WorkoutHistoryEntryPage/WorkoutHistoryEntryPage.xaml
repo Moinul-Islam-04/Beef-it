@@ -5,29 +5,17 @@
              Title="Workout History"
              BackgroundColor="Black">
 
-  <VerticalStackLayout Padding="20" Spacing="10">
-    <Label Text="History Page"
-           FontAttributes="Bold"
-           FontSize="24"
-           TextColor="White"
-           HorizontalOptions="Center"/>
-    <CollectionView x:Name="HistoryCollectionView">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="Black" 
-                           CornerRadius="10" 
-                           Padding="10" 
-                           Margin="0,5">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding SelectedDate, StringFormat='{0:MM/dd/yyyy}'}"
-                                   TextColor="Black"/>
-                            <Label Text="{Binding ExerciseName}" 
-                                   TextColor="Black" 
-                                   FontAttributes="Bold"/>
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout x:Name="WorkoutListLayout"
+                             Padding="20"
+                             Spacing="10"
+                             VerticalOptions="Start">
+            <Label Text="Workout History"
+                   FontAttributes="Bold"
+                   FontSize="24"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
