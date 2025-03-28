@@ -3,11 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.WorkoutHistoryEntryPage"
              BackgroundColor="Black">
-  <VerticalStackLayout Padding="20" VerticalOptions="CenterAndExpand">
-    <Label Text="History Page"
-           FontAttributes="Bold"
-           FontSize="24"
-           TextColor="White"
-           HorizontalOptions="Center"/>
-  </VerticalStackLayout>
+
+    <ScrollView>
+        <VerticalStackLayout x:Name="WorkoutListLayout"
+                         Padding="20"
+                         Spacing="10"
+                         VerticalOptions="Start">
+            <Label Text="Workout History"
+             FontAttributes="Bold"
+             FontSize="24"
+             TextColor="White"
+             HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
