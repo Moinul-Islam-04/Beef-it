@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Name="CalendarPageInstance" 
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Beef__it.CalendarPage"
+             Title="CalendarPage">
+    <VerticalStackLayout>
+        <!-- Calendar Display -->
+        <CollectionView ItemsSource="{Binding Days}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="7"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="5" Margin="2" BorderColor="Gray" HasShadow="False">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={x:Reference CalendarPageInstance}, Path=BindingContext.SelectImageCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                        <StackLayout>
+                            <Label Text="{Binding Date, StringFormat='{0:dd}'}" HorizontalOptions="Center"/>
+                            <Image Source="{Binding ImageSource}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100"/>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Next and Previous Month buttons -->
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10">
+            <Button Text="Previous" Clicked="PreviousMonthButton_Clicked"/>
+            <Label x:Name="MonthYearLabel" VerticalOptions="Center" FontAttributes="Bold"/>
+            <Button Text="Next" Clicked="NextMonthButton_Clicked"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

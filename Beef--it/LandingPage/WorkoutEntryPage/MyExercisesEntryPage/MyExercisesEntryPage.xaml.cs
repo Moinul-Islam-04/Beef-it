@@ -34,6 +34,9 @@ namespace Beef__it
 
             // Clear the input for a fresh entry
             WorkoutDetailsEditor.Text = string.Empty;
+
+            // Navigate to workout history page
+            await Navigation.PushAsync(new WorkoutHistoryEntryPage());
         }
     }
 }
