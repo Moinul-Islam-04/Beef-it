@@ -16,8 +16,25 @@ namespace Beef__it
 
         private async void LoadWorkoutHistory()
         {
+            string username = Preferences.Get("LoggedInUsername", null);
+
+            if (string.IsNullOrEmpty(username))
+            {
+                await DisplayAlert("Error", "No user logged in.", "OK");
+                return;
+            }
+
+            var userRepo = new UserRepository();
+            var user = await userRepo.GetUserByUsernameAsync(username);
+
+            if (user == null)
+            {
+                await DisplayAlert("Error", "User not found.", "OK");
+                return;
+            }
+
             var repo = new WorkoutRepository();
-            List<Workout> workouts = await repo.GetAllWorkoutsAsync();
+            List<Workout> workouts = await repo.GetWorkoutsByUserIdAsync(user.Id);
 
             foreach (var workout in workouts)
             {
@@ -39,5 +56,6 @@ namespace Beef__it
                 });
             }
         }
+
     }
 }

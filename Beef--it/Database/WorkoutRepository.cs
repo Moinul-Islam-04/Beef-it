@@ -25,6 +25,14 @@ namespace Beef__it.Database
             return _database.Table<Workout>().ToListAsync();
         }
 
+        public Task<List<Workout>> GetWorkoutsByUserIdAsync(int userId)
+        {
+            return _database.Table<Workout>()
+                            .Where(w => w.UserId == userId)
+                            .ToListAsync();
+        }
+
+
         public Task<int> DeleteWorkoutAsync(Workout workout)
         {
             return _database.DeleteAsync(workout);
