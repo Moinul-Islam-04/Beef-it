@@ -17,14 +17,33 @@ namespace Beef__it
             DateTime selectedDate = ExerciseDatePicker.Date;
             string workoutDetails = WorkoutDetailsEditor.Text;
 
-            // Create workout object
+            // Get the current username from Preferences
+            string username = Preferences.Get("LoggedInUsername", null);
+
+            if (string.IsNullOrEmpty(username))
+            {
+                await DisplayAlert("Error", "No user logged in.", "OK");
+                return;
+            }
+
+            // Get the user ID
+            var userRepo = new UserRepository();
+            var user = await userRepo.GetUserByUsernameAsync(username);
+
+            if (user == null)
+            {
+                await DisplayAlert("Error", "User not found.", "OK");
+                return;
+            }
+
+            // Save the workout with UserId
             var workout = new Workout
             {
                 Date = selectedDate,
-                Details = workoutDetails
+                Details = workoutDetails,
+                UserId = user.Id
             };
 
-            // Save to database
             var repo = new WorkoutRepository();
             await repo.AddWorkoutAsync(workout);
 
@@ -32,11 +51,8 @@ namespace Beef__it
                 $"Workout for {selectedDate.ToString("D")} saved!\nDetails: {workoutDetails}",
                 "OK");
 
-            // Clear the input for a fresh entry
             WorkoutDetailsEditor.Text = string.Empty;
-
-            // Navigate to workout history page
-            await Navigation.PushAsync(new WorkoutHistoryEntryPage());
         }
+
     }
 }
