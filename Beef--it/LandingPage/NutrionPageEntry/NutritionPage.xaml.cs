@@ -76,25 +76,40 @@ namespace Beef__it
         }
 
         private async Task LoadDateData()
+    {
+        FoodLog.Clear();
+        caloriesConsumed = 0;
+        proteinConsumed = 0;
+
+        string username = Preferences.Get("LoggedInUsername", null);
+
+        if (string.IsNullOrEmpty(username))
         {
-            // Clear current food log
-            FoodLog.Clear();
-            caloriesConsumed = 0;
-            proteinConsumed = 0;
-
-            // Load data from database
-            var foodItems = await _db.GetFoodLogByDateAsync(currentDate);
-
-            foreach (var item in foodItems)
-            {
-                FoodLog.Add(item);
-                caloriesConsumed += item.Calories;
-                proteinConsumed += item.Protein;
-            }
-
-            // Update UI
-            UpdateSummaryLabels();
+            await DisplayAlert("Error", "No user logged in.", "OK");
+            return;
         }
+
+        var userRepo = new UserRepository();
+        var user = await userRepo.GetUserByUsernameAsync(username);
+
+        if (user == null)
+        {
+            await DisplayAlert("Error", "User not found.", "OK");
+            return;
+        }
+
+        // Pull food logs by date and user ID
+        var foodItems = await _db.GetFoodLogByDateAndUserAsync(currentDate, user.Id);
+
+        foreach (var item in foodItems)
+        {
+            FoodLog.Add(item);
+            caloriesConsumed += item.Calories;
+            proteinConsumed += item.Protein;
+        }
+
+        UpdateSummaryLabels();
+    }
 
         private void OnQuickAddClicked(object sender, EventArgs e)
         {
@@ -111,6 +126,16 @@ namespace Beef__it
 
         private async void OnAddFoodClicked(object sender, EventArgs e)
         {
+            string username = Preferences.Get("LoggedInUsername", null);
+            var userRepo = new UserRepository();
+            var user = await userRepo.GetUserByUsernameAsync(username);
+
+            if (user == null)
+            {
+                await DisplayAlert("Error", "User not found.", "OK");
+                return;
+            }
+
             // Validate input fields
             if (string.IsNullOrWhiteSpace(FoodNameEntry.Text))
             {
@@ -143,7 +168,8 @@ namespace Beef__it
                 MealType = MealTypePicker.SelectedItem.ToString(),
                 Calories = calories,
                 Protein = protein,
-                Date = currentDate
+                Date = currentDate,
+                UserId = user.Id
             };
 
             // Add to database
