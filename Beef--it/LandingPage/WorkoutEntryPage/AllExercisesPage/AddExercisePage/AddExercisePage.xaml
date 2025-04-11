@@ -4,20 +4,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Beef__it.AddExercisePage"
     Title="Add Exercise"
-    BackgroundColor="Black">
-    
-    <VerticalStackLayout Padding="20" Spacing="20">
+    BackgroundColor="#121212">
+  <ScrollView>
+    <VerticalStackLayout Padding="30" Spacing="25">
         <Label x:Name="ExerciseNameLabel"
                FontAttributes="Bold"
-               FontSize="24"
-               TextColor="White" />
+               FontSize="28"
+               TextColor="#A020F0" />
         <DatePicker x:Name="ExerciseDatePicker"
                     TextColor="White"
                     Format="D"
                     MinimumDate="2020-01-01" />
         <Button Text="Save to History"
-                BackgroundColor="Green"
+                BackgroundColor="#A020F0"
                 TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="50"
                 Clicked="OnSaveButtonClicked" />
     </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

@@ -38,9 +38,9 @@ namespace Beef__it
         {
             await Navigation.PushAsync(new NutritionPage());
         }
-        private async void ProgressPicButton_Clicked(object sender, EventArgs e) {
+        /*private async void ProgressPicButton_Clicked(object sender, EventArgs e) {
             await Navigation.PushAsync(new ProgressPicPage());
-        }
+        }*/
         private async void CalendarButton_Clicked(object sender, EventArgs e)
         {
             var calendarPage = App.Current.Services.GetRequiredService<CalendarPage>();

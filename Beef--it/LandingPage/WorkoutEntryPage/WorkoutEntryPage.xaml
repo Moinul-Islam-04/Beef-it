@@ -2,23 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Beef__it.WorkoutEntryPage"
-             BackgroundColor="Black">
-  <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="CenterAndExpand">
-    <Button x:Name="AllExercisesButton"
-            Text="All Exercises"
-            BackgroundColor="Gray"
-            TextColor="White"
-            Clicked="AllExercisesButton_Clicked" />
-    <Button x:Name="MyExercisesButton"
-            Text="My Exercises"
-            BackgroundColor="Gray"
-            TextColor="White"
-            Clicked="MyExercisesButton_Clicked" />
-    <Button x:Name="HistoryButton"
-            Text="History"
-            BackgroundColor="Gray"
-            TextColor="White"
-            Clicked="HistoryButton_Clicked" />
+             BackgroundColor="#121212">
+  <ScrollView>
+    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="CenterAndExpand">
+        <Button x:Name="AllExercisesButton"
+                Text="All Exercises"
+                BackgroundColor="#A020F0"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="50"
+                Clicked="AllExercisesButton_Clicked" />
+        <Button x:Name="MyExercisesButton"
+                Text="My Exercises"
+                BackgroundColor="#A020F0"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="50"
+                Clicked="MyExercisesButton_Clicked" />
+        <Button x:Name="HistoryButton"
+                Text="History"
+                BackgroundColor="#A020F0"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="50"
+                Clicked="HistoryButton_Clicked" />
   </VerticalStackLayout>
+ </ScrollView>
 </ContentPage>
 
