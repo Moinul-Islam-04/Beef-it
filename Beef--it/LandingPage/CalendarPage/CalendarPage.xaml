@@ -4,34 +4,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Beef__it.CalendarPage"
              Title="CalendarPage">
-    <VerticalStackLayout>
-        <!-- Calendar Display -->
-        <CollectionView ItemsSource="{Binding Days}">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="7"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame Padding="5" Margin="2" BorderColor="Gray" HasShadow="False">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={x:Reference CalendarPageInstance}, Path=BindingContext.SelectImageCommand}"
-                                CommandParameter="{Binding .}" />
-                        </Frame.GestureRecognizers>
-                        <StackLayout>
-                            <Label Text="{Binding Date, StringFormat='{0:dd}'}" HorizontalOptions="Center"/>
-                            <Image Source="{Binding ImageSource}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100"/>
-                        </StackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+    <ScrollView>
+        <VerticalStackLayout>
+            <!-- Calendar Display -->
+            <CollectionView ItemsSource="{Binding Days}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="7"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="5" Margin="2" BorderColor="Gray" HasShadow="False">
+                            <!-- Grid with Delete 'X' button -->
+                            <Grid>
+                                <!-- Delete Button in the top right -->
+                                <Button Text="X"
+                                        Command="{Binding Source={x:Reference CalendarPageInstance}, Path=BindingContext.DeleteImageCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Start"
+                                        BackgroundColor="Transparent"
+                                        TextColor="Red"
+                                        WidthRequest="25"
+                                        HeightRequest="25"/>
+                                
+                                <!-- Calendar day -->
+                                <VerticalStackLayout Margin="0,25,0,0" HorizontalOptions="Center">
+                                    <Label Text="{Binding Date, StringFormat='{0:dd}'}" HorizontalOptions="Center"/>
+                                    <Image Source="{Binding ImageSource}" 
+                                           Aspect="AspectFill" 
+                                           HeightRequest="100" 
+                                           WidthRequest="100"/>
+                                    <Button Text="Expand"
+                                            Command="{Binding Source={x:Reference CalendarPageInstance}, Path=BindingContext.ShowFullImageCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#686de0"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            Margin="0,5,0,0" />
+                                </VerticalStackLayout>
 
-        <!-- Next and Previous Month buttons -->
-        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10">
-            <Button Text="Previous" Clicked="PreviousMonthButton_Clicked"/>
-            <Label x:Name="MonthYearLabel" VerticalOptions="Center" FontAttributes="Bold"/>
-            <Button Text="Next" Clicked="NextMonthButton_Clicked"/>
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+                                <!-- Select image -->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={x:Reference CalendarPageInstance}, Path=BindingContext.SelectImageCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Previous and Next Month -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10">
+                <Button Text="Previous" Clicked="PreviousMonthButton_Clicked"/>
+                <Label x:Name="MonthYearLabel" VerticalOptions="Center" FontAttributes="Bold"/>
+                <Button Text="Next" Clicked="NextMonthButton_Clicked"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

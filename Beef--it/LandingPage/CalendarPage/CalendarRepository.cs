@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Beef__it
 {
@@ -63,6 +64,41 @@ namespace Beef__it
                 await InsertCalendarDayAsync(calendarDay);
             }
         }
+        public async Task RemoveStaleImageFilesAsync()
+        {
+            // Gets the app data directory.
+            string appDataDir = FileSystem.AppDataDirectory;
+
+            // Gets all PNG files in the directory.
+            var allFiles = Directory.GetFiles(appDataDir, "*.png");
+
+            // Query the database for all CalendarDays with an ImageSource.
+            var allDays = await _database.Table<CalendarDay>().ToListAsync();
+
+            // Build a list of the actual file paths (removing any query strings) that are referenced.
+            var referencedFiles = allDays
+                .Where(day => !string.IsNullOrEmpty(day.ImageSource))
+                .Select(day => day.ImageSource.Split('?')[0])
+                .ToList();
+
+            // Delete any file that is not referenced.
+            foreach (var file in allFiles)
+            {
+                if (!referencedFiles.Contains(file))
+                {
+                    try
+                    {
+                        File.Delete(file);
+                    }
+                    catch (Exception ex)
+                    {
+                        // 
+                        Debug.WriteLine($"Failed to delete stale image file {file}: {ex.Message}");
+                    }
+                }
+            }
+        }
+
         public class CalendarDay : INotifyPropertyChanged
         {
             private int _id;
