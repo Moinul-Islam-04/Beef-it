@@ -11,7 +11,7 @@ namespace Beef__it
         public WorkoutHistoryEntryPage()
         {
             InitializeComponent();
-            LoadWorkoutHistory(); // Load workouts when page is created
+            LoadWorkoutHistory();
         }
 
         private async void LoadWorkoutHistory()
